@@ -7,3 +7,4 @@ export { Input } from './input';
 export { Popover } from './popover';
 export { Skeleton } from './skeleton';
 export { Slider } from './slider';
+export { RangeSlider } from './rangeSlider'
