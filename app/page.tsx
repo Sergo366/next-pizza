@@ -21,7 +21,7 @@ export default function Home() {
                     <div className="flex-1">
                         <div className="flex flex-col gap-16">
                             <ProductsGroupList title="Pizzas" items={[1, 2, 3, 4, 5]}  categoryId={1}/>
-                            <ProductsGroupList title="Breakfast" items={[1, 2, 3, 4, 5]}  categoryId={2}/>
+                            <ProductsGroupList title="Combo" items={[1, 2, 3, 4, 5]}  categoryId={2}/>
                         </div>
 
                         {/*<div className="flex items-center gap-6 mt-12">*/}
