@@ -1,5 +1,6 @@
-import {prisma} from "@/prisma/prisma-client";
+import {prisma} from "./prisma-client";
 import {hashSync} from "bcrypt";
+import {categories} from "@/prisma/constants";
 
 async function up () {
     await prisma.user.createMany({
@@ -19,6 +20,10 @@ async function up () {
                 verified: new Date(),
             }
         ]
+    })
+
+    await prisma.category.updateMany({
+        data: categories
     })
 }
 
