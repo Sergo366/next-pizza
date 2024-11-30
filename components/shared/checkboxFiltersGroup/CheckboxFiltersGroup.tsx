@@ -1,7 +1,6 @@
 'use client';
 
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import { useSet } from 'react-use';
+import React, {ChangeEvent, useState} from 'react';
 
 import { Input } from '../../ui/input';
 import {FilterChecboxProps, FilterCheckbox} from "@/components/shared/filterCheckbox/FilterCheckbox";
@@ -11,31 +10,33 @@ type Item = FilterChecboxProps;
 
 interface Props {
     title: string;
+    name?: string;
     items: Item[];
-    defaultItems: Item[];
+    defaultItems?: Item[];
     limit?: number;
     loading?: boolean;
     searchInputPlaceholder?: string;
     className?: string;
-    onChange?: (values: string[]) => void;
+    onClickCheckbox: (id: string) => void;
     defaultValue?: string[];
+    selected: Set<string>;
 }
 
 export const CheckboxFiltersGroup: React.FC<Props> = (
     {
         title,
+        name,
         items,
         defaultItems,
         limit = 5,
         searchInputPlaceholder = 'Поиск...',
         className,
-        onChange,
-        defaultValue,
+        onClickCheckbox,
+        selected,
         loading
     }
     ) => {
     const [showAll, setShowAll] = useState(false);
-    const [selected, { add, toggle }] = useSet<string>(new Set([]));
     const [search, setSearch] = useState('');
 
     const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,21 +45,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = (
 
     const list = showAll
         ? items.filter((el) => el.text.toLowerCase().includes(search.toLowerCase()))
-        : defaultItems
-
-    const onCheckedChange = (value: string) => {
-        toggle(value);
-    };
-
-    useEffect(() => {
-        if (defaultValue) {
-            defaultValue.forEach(add);
-        }
-    }, [defaultValue?.length]);
-
-    useEffect(() => {
-        onChange?.(Array.from(selected));
-    }, [selected]);
+        : (defaultItems || items).slice(0, limit)
 
     if (loading) {
         return <div>
@@ -83,12 +70,13 @@ export const CheckboxFiltersGroup: React.FC<Props> = (
             <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
                 {list.map((item) => (
                     <FilterCheckbox
-                        onCheckedChange={() => onCheckedChange(item.value)}
+                        onCheckedChange={() => onClickCheckbox(item.value)}
                         checked={selected.has(item.value)}
                         key={String(item.value)}
                         value={item.value}
                         text={item.text}
                         endAdornment={item.endAdornment}
+                        name={name}
                     />
                 ))}
             </div>
