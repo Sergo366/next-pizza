@@ -24,6 +24,12 @@ export const SearchInput = () => {
             .then((data) => setProducts(data))
     }, 300, [searchQuery]);
 
+    const onClickItem = () => {
+        setFocused(false);
+        setSearchQuery('');
+        setProducts([]);
+    }
+
     return (
         <div className={'relative'}>
             {focused && <div className={'fixed top-0 left-0 bottom-0 right-0 bg-black/50 z-30'}/>}
@@ -40,28 +46,30 @@ export const SearchInput = () => {
                 />
             </div>
 
-            <div className={cn(
-                'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
-                focused && 'opacity-100 visible top-[3rem]'
-            )}>
-                {products.map((product) => (
-                    <Link
-                        key={product.id}
-                        href={`/products/${product.id}`}
-                        className={'flex items-center gap-3 px-3 py-2 hover:bg-primary/10'}
-                    >
-                        <img
-                            className={'rounded-sm h-8'}
-                            src={product.imageUrl}
-                            width={32}
-                            height={32}
-                            alt={product.name}
-                        />
-                        <span>{product.name}</span>
-                    </Link>
-                ))}
-            </div>
-
+            {products.length > 0 && (
+                <div className={cn(
+                    'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
+                    focused && 'opacity-100 visible top-[3rem]'
+                )}>
+                    {products.map((product) => (
+                        <Link
+                            key={product.id}
+                            href={`/product/${product.id}`}
+                            className={'flex items-center gap-3 px-3 py-2 hover:bg-primary/10'}
+                            onClick={onClickItem}
+                        >
+                            <img
+                                className={'rounded-sm h-8'}
+                                src={product.imageUrl}
+                                width={32}
+                                height={32}
+                                alt={product.name}
+                            />
+                            <span>{product.name}</span>
+                        </Link>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
