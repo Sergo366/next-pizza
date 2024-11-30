@@ -5,6 +5,7 @@ import { useSet } from 'react-use';
 
 import { Input } from '../../ui/input';
 import {FilterChecboxProps, FilterCheckbox} from "@/components/shared/filterCheckbox/FilterCheckbox";
+import {Skeleton} from "@/components/ui";
 
 type Item = FilterChecboxProps;
 
@@ -13,6 +14,7 @@ interface Props {
     items: Item[];
     defaultItems: Item[];
     limit?: number;
+    loading?: boolean;
     searchInputPlaceholder?: string;
     className?: string;
     onChange?: (values: string[]) => void;
@@ -29,6 +31,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = (
         className,
         onChange,
         defaultValue,
+        loading
     }
     ) => {
     const [showAll, setShowAll] = useState(false);
@@ -56,6 +59,16 @@ export const CheckboxFiltersGroup: React.FC<Props> = (
     useEffect(() => {
         onChange?.(Array.from(selected));
     }, [selected]);
+
+    if (loading) {
+        return <div>
+            <p className={'font-bold mb-3'}>{title}</p>
+            {Array(5).fill(0).map((_, i) => (
+                <Skeleton key={i} className={'h-6 mb-4 rounded-[8px]'}/>
+            ))}
+            <Skeleton className={'w-28 h-6 mb-4 rounded-[8px]'}/>
+        </div>
+    }
 
     return (
         <div className={className}>

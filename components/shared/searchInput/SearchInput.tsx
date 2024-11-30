@@ -19,9 +19,13 @@ export const SearchInput = () => {
         setFocused(false);
     })
 
-    useDebounce(() => {
-        API.products.search(searchQuery)
-            .then((data) => setProducts(data))
+    useDebounce(async () => {
+        try {
+            const data = await API.products.search(searchQuery)
+            setProducts(data)
+        } catch (error) {
+            console.log(error)
+        }
     }, 300, [searchQuery]);
 
     const onClickItem = () => {

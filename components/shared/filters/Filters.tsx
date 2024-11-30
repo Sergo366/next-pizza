@@ -1,10 +1,16 @@
+'use client'
+
 import React from 'react';
 import {Title} from "@/components/shared/title";
 import {FilterCheckbox} from "@/components/shared/filterCheckbox";
 import {Input, RangeSlider} from "@/components/ui";
 import {CheckboxFiltersGroup} from "@/components/shared/checkboxFiltersGroup";
+import {useFilterIngredients} from "@/hooks/useFilterIngredients";
 
 export const Filters = () => {
+    const { ingredients, loading } = useFilterIngredients();
+    const items = ingredients.map((item) => ({value: String(item.id), text: item.name}))
+
     return (
         <>
             <Title text="Filters" size={'sm'} className={'mb-5 font-bold'} />
@@ -25,20 +31,10 @@ export const Filters = () => {
 
             <CheckboxFiltersGroup
                 title={'Ingredients'}
-                items={[
-                    { text: 'souce', value: '1' },
-                    { text: 'souce', value: '2' },
-                    { text: 'souce', value: '3' },
-                    { text: 'souce', value: '4' },
-                ]}
-                defaultItems={[
-                    { text: 'souce', value: '1' },
-                    { text: 'souce', value: '2' },
-                    { text: 'souce', value: '3' },
-                    { text: 'souce', value: '4' },
-                ]}
+                items={items}
+                defaultItems={items.slice(0, 5)}
                 className={'mt-5'}
-                limit={2}
+                loading={loading}
             />
         </>
     );
