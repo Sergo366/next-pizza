@@ -1,1 +1,0 @@
-export { useFilterIngredients } from './useFilterIngredients';
