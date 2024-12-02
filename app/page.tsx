@@ -3,15 +3,29 @@ import {Title} from "@/components/shared/title";
 import {TopBar} from "@/components/shared/topBar";
 import {Filters} from "@/components/shared/filters";
 import {ProductsGroupList} from "@/components/shared/productsGroupList";
+import {prisma} from "@/prisma/prisma-client";
 
-export default function Home() {
+export default async function Home() {
+    const categories = await prisma.category.findMany({
+        include: {
+            products: {
+               include: {
+                   items: true,
+                   ingredients: true
+               }
+            }
+        }
+    })
+
     return (
         <>
             <Container className={'mt-10'}>
                 <Title size={'lg'} text={'All pizzas'} className={'font-extrabold'}/>
             </Container>
 
-            <TopBar/>
+            <TopBar
+                categories={categories.filter((el) => el.products.length > 0)}
+            />
 
             <Container className="pb-14 mt-10">
                 <div className="flex gap-[80px]">
@@ -20,8 +34,16 @@ export default function Home() {
                     </div>
                     <div className="flex-1">
                         <div className="flex flex-col gap-16">
-                            <ProductsGroupList title="Pizzas" items={[1, 2, 3, 4, 5]}  categoryId={1}/>
-                            <ProductsGroupList title="Combo" items={[1, 2, 3, 4, 5]}  categoryId={2}/>
+                            {categories.map((cat) => (
+                                cat.products.length > 0 && (
+                                    <ProductsGroupList
+                                        key={cat.id}
+                                        categoryId={1}
+                                        title={cat.name}
+                                        items={cat.products}
+                                    />
+                                )
+                            ))}
                         </div>
 
                         {/*<div className="flex items-center gap-6 mt-12">*/}
