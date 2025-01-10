@@ -1,10 +1,10 @@
 import React from 'react';
 import {prisma} from "@/prisma/prisma-client";
 import {notFound} from "next/navigation";
-import {Container} from "@/components/shared/container";
-import {ProductImage} from "@/components/shared/productImage";
-import {Title} from "@/components/shared/title";
-import {GroupVariants} from "@/components/shared/groupVariants";
+import {Container} from "@/shared/components/shared/container";
+import {Title} from "@/shared/components/shared/title";
+import {GroupVariants} from "@/shared/components/shared/groupVariants";
+import {PizzaImage} from "@/shared/components/shared/pizzaImage";
 
 type ProductPageProps = {
     params: {
@@ -24,7 +24,7 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
     return (
         <Container className={'flex flex-col my-10'}>
             <div className={'flex flex-1'}>
-                <ProductImage size={40} scr={product.imageUrl} alt={product.name} />
+                <PizzaImage size={40} src={product.imageUrl} alt={product.name} />
                 <div className={'w-[490px] bg-[#f7f6f5]'}>
                     <Title text={product.name} size={'md'} className={'font-extrabold mb-1'}/>
                     <p className={'text-gray-400'}>Lorem ipsum dolor sit amet.</p>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {prisma} from "@/prisma/prisma-client";
 import {notFound} from "next/navigation";
-import {ChooseProductModal} from "@/components/shared/modals";
+import {ChooseProductModal} from "@/shared/components/shared/modals";
 
 type ProductPageProps = {
     params: {

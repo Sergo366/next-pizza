@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/shared/header";
+import { Header } from "@/shared/components/shared/header";
 import {ReactNode} from "react";
 
 export const metadata: Metadata = {
